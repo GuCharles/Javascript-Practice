@@ -1,10 +1,9 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-let ball = {x : 0, y : 0, size : 30, color : "#FFFFFF", speed : -0};
+let ball = {x : 0, y : 0, size : 10, color : "#FFFFFF", speed : -0};
 let isBallOn = false;
 let isBallDown = true;
-let isStop = false;
 let onClick = (e) => {
     if(!isBallOn){
         ball.x = e.offsetX;
@@ -13,21 +12,13 @@ let onClick = (e) => {
             if(isBallDown){
                 ball.speed += 3;
                 ball.y += ball.speed;
-                Run();
+                Run(e);
             }else if(!isBallDown){
-                if(!isStop){
                 ball.speed -= 3;
                 ball.y -= ball.speed;
-                }
-                if(ball.y == canvas.height-ball.size/2-15 && !isStop){
-                    ball.speed = 0;
-                    isStop = true;
-                }
-                Run();
+                Run(e);
             }
-            document.addEventListener("keypress",()=>{
-                if(e.key == "ArrowRight") ball.x+=3;
-            });
+            
         },20);
         isBallOn = true;
         
@@ -36,7 +27,7 @@ let onClick = (e) => {
     ctx.fillStyle="#000";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
-let Run = ()=>{
+let Run = (e)=>{
     ctx.fillStyle="#000";
     ctx.fillRect(0,0,canvas.width,canvas.height);
 
@@ -52,6 +43,12 @@ let Run = ()=>{
         isBallDown = false
     }
     else if(ball.speed == 0 ) isBallDown = true;
+    
+    document.onkeydown = e=>{
+        if(e.key == "d") ball.x+=8;
+        else if(e.key = "a") ball.x-=8;
+    }
+    
 };
 
 
